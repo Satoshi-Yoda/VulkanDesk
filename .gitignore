@@ -1,0 +1,8 @@
+*.exe
+*.o
+*.dll
+*.spv
+*.sublime-project
+*.sublime-workspace
+build/*
+temp/*
