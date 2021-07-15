@@ -86,13 +86,13 @@ void Scene::init() {
 	graphic->erase();
 	*/
 
-	shared_ptr<Rectangle> rect_b = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
-	rect_b->data.color = color;
-	rect_b->data.size = { 400, 400 };
-	rect_b->data.radius = 20.0f;
-	rect_b->data.aa = 1.0f;
-	rect_b->position = { 300, -200 };
-	rect_b->paint();
+	rect = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
+	rect->data.color = color;
+	rect->data.size = { 400, 400 };
+	rect->data.radius = 20.0f;
+	rect->data.aa = 1.0f;
+	rect->position = { 300, -200 };
+	rect->paint();
 
 	// "asteroid-s1.1"
 	// printf("Lava: sprite %.0fx%.0f\n", round(width * scale), round(height * scale));
@@ -144,6 +144,9 @@ void Scene::init() {
 }
 
 void Scene::update(double t, double dt) {
+	rect->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
+	rect->refresh();
+
 	for (auto i : updatableIndexes) {
 		float add = 40 * cos(t) * dt;
 		vec2 addv { add, add };
