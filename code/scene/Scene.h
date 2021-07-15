@@ -14,7 +14,6 @@
 #include "../../VulkanCore/core/Tectonic.h"
 #include "../../VulkanCore/graphic/Graphic.h"
 #include "../../VulkanCore/graphic/GraphicLayout.h"
-#include "../../VulkanCore/graphic/GraphicMaker.h"
 #include "../../VulkanCore/rectangle/Rectangle.h"
 #include "../../VulkanCore/rectangle/RectangleLayout.h"
 #include "../../VulkanCore/rectangle/RectangleMaker.h"
@@ -45,7 +44,6 @@ private:
 	Lava& lava;
 
 	RectangleMaker rectangleMaker { ash, mountain, rocks, crater, lava };
-	GraphicMaker graphicMaker { ash, mountain, rocks, crater, lava };
 
 	unordered_map<size_t, Instance> instances;
 	vector<size_t> updatableIndexes;

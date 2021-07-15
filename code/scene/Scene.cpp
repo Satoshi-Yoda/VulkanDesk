@@ -56,14 +56,15 @@ void Scene::init() {
 	rect5.aa = 1.5f;
 	rectangleMaker.initRectangle(+size.x * 1.5 * 3, y, rect5);
 
-	GraphicData gr;
-	gr.bgColor = color;
-	gr.lineColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-	gr.size = { 800, 400 };
-	gr.radius = 20.0f;
-	gr.aa = 1.0f;
-	gr.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f };
-	graphicMaker.initGraphic(-350, -200, gr);
+	shared_ptr<Graphic> gr = make_shared<Graphic>(ash, mountain, rocks, crater, lava);
+	gr->data.bgColor = color;
+	gr->data.lineColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	gr->data.size = { 800, 400 };
+	gr->data.radius = 20.0f;
+	gr->data.aa = 1.0f;
+	gr->data.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f };
+	gr->position = { -350, -200 };
+	gr->paint();
 
 	/*
 	1) make refresh() and erase() somehow
