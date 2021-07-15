@@ -25,42 +25,43 @@ void Scene::init() {
 	rect1.color = color;
 	rect1.size = size;
 	rect1.radius = radius;
-	rect1.step = 0.0f;
+	rect1.aa = 0.0f;
 	rectangleMaker.initRectangle(-size.x * 1.5, y, rect1);
 
 	RectangleData rect2;
 	rect2.color = color;
 	rect2.size = size;
 	rect2.radius = radius;
-	rect2.step = 0.5f;
+	rect2.aa = 0.5f;
 	rectangleMaker.initRectangle(0, y, rect2);
 
 	RectangleData rect3;
 	rect3.color = color;
 	rect3.size = size;
 	rect3.radius = radius;
-	rect3.step = 0.8f;
+	rect3.aa = 0.8f;
 	rectangleMaker.initRectangle(+size.x * 1.5, y, rect3);
 
 	RectangleData rect4;
 	rect4.color = color;
 	rect4.size = size;
 	rect4.radius = radius;
-	rect4.step = 1.0f;
+	rect4.aa = 1.0f;
 	rectangleMaker.initRectangle(+size.x * 1.5 * 2, y, rect4);
 
 	RectangleData rect5;
 	rect5.color = color;
 	rect5.size = size;
 	rect5.radius = radius;
-	rect5.step = 1.5f;
+	rect5.aa = 1.5f;
 	rectangleMaker.initRectangle(+size.x * 1.5 * 3, y, rect5);
 
 	GraphicData gr;
-	gr.color = color;
+	gr.bgColor = color;
+	gr.lineColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 	gr.size = { 800, 400 };
 	gr.radius = 20.0f;
-	gr.step = 1.0f;
+	gr.aa = 1.0f;
 	gr.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f };
 	graphicMaker.initGraphic(-350, -200, gr);
 
@@ -68,7 +69,7 @@ void Scene::init() {
 	pr.color = color;
 	pr.size = { 400, 400 };
 	pr.radius = 20.0f;
-	pr.step = 1.0f;
+	pr.aa = 1.0f;
 	rectangleMaker.initRectangle(300, -200, pr);
 
 	// "asteroid-s1.1"

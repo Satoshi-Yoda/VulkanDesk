@@ -29,7 +29,7 @@ bool run(size_t runId) {
 	batcher.loadFolder("_crops_harvester");
 	// batcher.loadFolderTeam("_crops_uptoride");
 
-	Mountain mountain { ash };
+	Mountain mountain { ash, 1920, 1080 };
 	Rocks rocks { ash,  mountain };
 	Crater crater { ash, mountain, rocks };
 	Lava lava { ash, mountain, rocks, crater };
