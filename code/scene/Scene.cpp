@@ -21,40 +21,45 @@ void Scene::init() {
 	float radius = 4.0f;
 	float y = 200;
 
-	RectangleData rect1;
-	rect1.color = color;
-	rect1.size = size;
-	rect1.radius = radius;
-	rect1.aa = 0.0f;
-	rectangleMaker.initRectangle(-size.x * 1.5, y, rect1);
+	shared_ptr<Rectangle> rect1 = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
+	rect1->data.color = color;
+	rect1->data.size = size;
+	rect1->data.radius = radius;
+	rect1->data.aa = 0.0f;
+	rect1->position = { -size.x * 1.5, y };
+	rect1->paint();
 
-	RectangleData rect2;
-	rect2.color = color;
-	rect2.size = size;
-	rect2.radius = radius;
-	rect2.aa = 0.5f;
-	rectangleMaker.initRectangle(0, y, rect2);
+	shared_ptr<Rectangle> rect2 = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
+	rect2->data.color = color;
+	rect2->data.size = size;
+	rect2->data.radius = radius;
+	rect2->data.aa = 0.5f;
+	rect2->position = { 0, y };
+	rect2->paint();
 
-	RectangleData rect3;
-	rect3.color = color;
-	rect3.size = size;
-	rect3.radius = radius;
-	rect3.aa = 0.8f;
-	rectangleMaker.initRectangle(+size.x * 1.5, y, rect3);
+	shared_ptr<Rectangle> rect3 = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
+	rect3->data.color = color;
+	rect3->data.size = size;
+	rect3->data.radius = radius;
+	rect3->data.aa = 0.8f;
+	rect3->position = { +size.x * 1.5, y };
+	rect3->paint();
 
-	RectangleData rect4;
-	rect4.color = color;
-	rect4.size = size;
-	rect4.radius = radius;
-	rect4.aa = 1.0f;
-	rectangleMaker.initRectangle(+size.x * 1.5 * 2, y, rect4);
+	shared_ptr<Rectangle> rect4 = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
+	rect4->data.color = color;
+	rect4->data.size = size;
+	rect4->data.radius = radius;
+	rect4->data.aa = 1.0f;
+	rect4->position = { +size.x * 1.5 * 2, y };
+	rect4->paint();
 
-	RectangleData rect5;
-	rect5.color = color;
-	rect5.size = size;
-	rect5.radius = radius;
-	rect5.aa = 1.5f;
-	rectangleMaker.initRectangle(+size.x * 1.5 * 3, y, rect5);
+	shared_ptr<Rectangle> rect5 = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
+	rect5->data.color = color;
+	rect5->data.size = size;
+	rect5->data.radius = radius;
+	rect5->data.aa = 1.5f;
+	rect5->position = { +size.x * 1.5 * 3, y };
+	rect5->paint();
 
 	shared_ptr<Graphic> gr = make_shared<Graphic>(ash, mountain, rocks, crater, lava);
 	gr->data.bgColor = color;
@@ -81,12 +86,13 @@ void Scene::init() {
 	graphic->erase();
 	*/
 
-	RectangleData pr;
-	pr.color = color;
-	pr.size = { 400, 400 };
-	pr.radius = 20.0f;
-	pr.aa = 1.0f;
-	rectangleMaker.initRectangle(300, -200, pr);
+	shared_ptr<Rectangle> rect_b = make_shared<Rectangle>(ash, mountain, rocks, crater, lava);
+	rect_b->data.color = color;
+	rect_b->data.size = { 400, 400 };
+	rect_b->data.radius = 20.0f;
+	rect_b->data.aa = 1.0f;
+	rect_b->position = { 300, -200 };
+	rect_b->paint();
 
 	// "asteroid-s1.1"
 	// printf("Lava: sprite %.0fx%.0f\n", round(width * scale), round(height * scale));

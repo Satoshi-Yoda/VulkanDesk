@@ -16,7 +16,6 @@
 #include "../../VulkanCore/graphic/GraphicLayout.h"
 #include "../../VulkanCore/rectangle/Rectangle.h"
 #include "../../VulkanCore/rectangle/RectangleLayout.h"
-#include "../../VulkanCore/rectangle/RectangleMaker.h"
 
 using glm::vec2;
 using std::mt19937_64;
@@ -42,8 +41,6 @@ private:
 	Rocks& rocks;
 	Crater& crater;
 	Lava& lava;
-
-	RectangleMaker rectangleMaker { ash, mountain, rocks, crater, lava };
 
 	unordered_map<size_t, Instance> instances;
 	vector<size_t> updatableIndexes;
