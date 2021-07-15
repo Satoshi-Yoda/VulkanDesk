@@ -65,6 +65,21 @@ void Scene::init() {
 	gr.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f };
 	graphicMaker.initGraphic(-350, -200, gr);
 
+	/*
+	1) make refresh() and erase() somehow
+	2) refactor to following state:
+
+	shared_ptr<Graphic> graphic = make_shared<Graphic>(ash, mountain, ...);
+	graphic->bgColor = ...
+	graphic->size = ...
+	graphic->paint();
+
+	graphic->size = ...
+	graphic->refresh();
+
+	graphic->erase();
+	*/
+
 	RectangleData pr;
 	pr.color = color;
 	pr.size = { 400, 400 };
