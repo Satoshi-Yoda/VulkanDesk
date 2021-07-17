@@ -45,6 +45,7 @@ private:
 	unordered_map<size_t, Instance> instances;
 	vector<size_t> updatableIndexes;
 	shared_ptr<Rectangle> rect;
+	shared_ptr<Graphic> graphic;
 
 	mt19937_64 random;
 	uniform_real_distribution<double> distribution { 0.0, 1.0 };

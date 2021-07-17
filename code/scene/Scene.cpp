@@ -61,15 +61,15 @@ void Scene::init() {
 	rect5->position = { +size.x * 1.5 * 3, y };
 	rect5->paint();
 
-	shared_ptr<Graphic> gr = make_shared<Graphic>(ash, mountain, rocks, crater, lava);
-	gr->data.bgColor = color;
-	gr->data.lineColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-	gr->data.size = { 800, 400 };
-	gr->data.radius = 20.0f;
-	gr->data.aa = 1.0f;
-	gr->data.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f };
-	gr->position = { -350, -200 };
-	gr->paint();
+	graphic = make_shared<Graphic>(ash, mountain, rocks, crater, lava);
+	graphic->data.bgColor = color;
+	graphic->data.lineColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+	graphic->data.size = { 800, 400 };
+	graphic->data.radius = 20.0f;
+	graphic->data.aa = 1.0f;
+	graphic->data.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f };
+	graphic->position = { -350, -200 };
+	graphic->paint();
 
 	/*
 	1) make refresh() and erase() somehow
@@ -144,8 +144,12 @@ void Scene::init() {
 }
 
 void Scene::update(double t, double dt) {
-	rect->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
-	rect->refresh();
+	// rect->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
+	// rect->refresh();
+
+	graphic->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
+	graphic->data.points[2] = static_cast<float>(mountain.mouse_y / mountain.windowHeight);
+	graphic->refresh();
 
 	for (auto i : updatableIndexes) {
 		float add = 40 * cos(t) * dt;
