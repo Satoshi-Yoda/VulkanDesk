@@ -148,7 +148,11 @@ void Scene::update(double t, double dt) {
 	// rect->refresh();
 
 	graphic->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
-	graphic->data.points[2] = static_cast<float>(mountain.mouse_y / mountain.windowHeight);
+	graphic->data.points.clear();
+	for (int i = 0; i < mountain.mouse_x / 1; i++) {
+		graphic->data.points.push_back(distribution(random));
+		// graphic->data.points[2] = static_cast<float>(mountain.mouse_y / mountain.windowHeight);
+	}
 	graphic->refresh();
 
 	for (auto i : updatableIndexes) {
