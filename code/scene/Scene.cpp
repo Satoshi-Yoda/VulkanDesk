@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <iostream>
+#include <limits>
 #include <random>
 #include <string>
 #include <vector>
@@ -67,7 +68,8 @@ void Scene::init() {
 	graphic->data.size = { 800, 400 };
 	graphic->data.radius = 20.0f;
 	graphic->data.aa = 1.0f;
-	graphic->data.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f };
+	graphic->data.line = 10.0f;
+	graphic->data.points = { 0.1f, 0.4f, 0.2f, 0.5f, 0.4f, std::numeric_limits<float>::quiet_NaN(), 0.5f, 0.5f };
 	graphic->position = { -350, -200 };
 	graphic->paint();
 
@@ -147,13 +149,13 @@ void Scene::update(double t, double dt) {
 	// rect->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
 	// rect->refresh();
 
-	graphic->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
-	graphic->data.points.clear();
-	for (int i = 0; i < mountain.mouse_x / 1; i++) {
-		graphic->data.points.push_back(distribution(random));
-		// graphic->data.points[2] = static_cast<float>(mountain.mouse_y / mountain.windowHeight);
-	}
-	graphic->refresh();
+	// graphic->position = vec2(mountain.mouse_x - mountain.windowWidth / 2.0, mountain.mouse_y - mountain.windowHeight / 2.0);
+	// graphic->data.points.clear();
+	// for (int i = 0; i < mountain.mouse_x / 1; i++) {
+	// 	graphic->data.points.push_back(distribution(random));
+	// 	// graphic->data.points[2] = static_cast<float>(mountain.mouse_y / mountain.windowHeight);
+	// }
+	// graphic->refresh();
 
 	for (auto i : updatableIndexes) {
 		float add = 40 * cos(t) * dt;
