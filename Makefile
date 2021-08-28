@@ -1,3 +1,5 @@
+#v0.5
+
 VULKAN_HOME     = C:/_soft/VulkanSDK_1.2.148.1
 GLFW_HOME       = O:/_libs/glfw-3.3.2.bin.WIN64
 GLM_HOME        = O:/_libs/glm
@@ -19,31 +21,39 @@ GLFW_LIB   = ${GLFW_HOME}/lib-mingw-w64
 
 ifdef tests_here
 	INCLUDE = -I${VULKAN_INCLUDE} -I${GLFW_INCLUDE} -I${GLM_INCLUDE} -I${STB_INCLUDE} -I${VMA_INCLUDE} -I${MAGIC_ENUM_INCLUDE} -I${CATCH_INCLUDE}
-	LINK = ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll ${CATCH_HOME}/catch_amalgamated.o
-	COMPILE = -std=c++20 -O3 -mavx ${gcc_params} -Dtests_here
+	LINK = -ljsoncpp ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll ${CATCH_HOME}/catch_amalgamated.o
+	COMPILE = -std=c++20 -O3 -mavx -Wno-deprecated-declarations ${gcc_params} -Dtests_here
 else
 	INCLUDE = -I${VULKAN_INCLUDE} -I${GLFW_INCLUDE} -I${GLM_INCLUDE} -I${STB_INCLUDE} -I${VMA_INCLUDE} -I${MAGIC_ENUM_INCLUDE}
-	LINK = ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll
-	COMPILE = -std=c++20 -O3 -mavx ${gcc_params}
+	LINK = -ljsoncpp ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll
+	COMPILE = -std=c++20 -O3 -mavx -Wno-deprecated-declarations ${gcc_params}
 endif
 
 CPP_FILES = $(wildcard */*.cpp) $(wildcard */*/*.cpp)
-O_FILES = $(addprefix temp/,$(subst code-,,$(subst /,-,$(patsubst %.cpp,%.o,${CPP_FILES}))))
+TO_TEMP = $(addprefix temp/,$(subst code-,,$(subst /,-,$(1))))
+O_FILES = $(patsubst %.cpp,%.o,$(call TO_TEMP,${CPP_FILES}))
+D_FILES = $(patsubst %.cpp,%.d,$(call TO_TEMP,${CPP_FILES}))
 
 GLSL_FILES = $(wildcard */*/*.vert) $(wildcard */*/*.frag)
 SPV_FILES = $(addprefix build/shaders/,$(addsuffix .spv,$(subst .,-,$(subst -shader,,$(subst VulkanCore-,,$(subst /,-,${GLSL_FILES}))))))
 
-build/main.exe : ${O_FILES} ${SPV_FILES}
+build/main.exe : ${D_FILES} ${O_FILES} ${SPV_FILES}
 	g++ ${COMPILE} ${O_FILES} ${LINK} -o build/main.exe
 
-define CPP_O_RECIPE
+define CPP_2_D_RECIPE
 $(1)
-	g++ $${COMPILE} $${INCLUDE} -c $$^ -o $$@
+	g++ -MM $$^ > $$@
 endef
-$(foreach file,$(join $(addsuffix :,$(O_FILES)),$(CPP_FILES)),$(eval $(call CPP_O_RECIPE,$(file))))
+$(foreach file,$(join $(addsuffix :,$(D_FILES)),$(CPP_FILES)),$(eval $(call CPP_2_D_RECIPE,$(file))))
 
-define GLSL_SPV_RECIPE
+define CPP_2_O_USING_D_RECIPE
+$(patsubst %.d,%.o,$(1)) : $(patsubst \,,$(patsubst %.o:,,$(file < $(1))))
+	g++ $${COMPILE} $${INCLUDE} -c $$< -o $$@
+endef
+$(foreach file,$(D_FILES),$(eval $(call CPP_2_O_USING_D_RECIPE,$(file))))
+
+define GLSL_2_SPV_RECIPE
 $(1)
 	glslc $$^ -o $$@
 endef
-$(foreach file,$(join $(addsuffix :,$(SPV_FILES)),$(GLSL_FILES)),$(eval $(call GLSL_SPV_RECIPE,$(file))))
+$(foreach file,$(join $(addsuffix :,$(SPV_FILES)),$(GLSL_FILES)),$(eval $(call GLSL_2_SPV_RECIPE,$(file))))
