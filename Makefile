@@ -1,4 +1,4 @@
-#v0.5
+#v0.6
 
 VULKAN_HOME     = C:/_soft/VulkanSDK_1.2.148.1
 GLFW_HOME       = O:/_libs/glfw-3.3.2.bin.WIN64
@@ -19,14 +19,19 @@ CATCH_INCLUDE      = ${CATCH_HOME}
 VULKAN_LIB = ${VULKAN_HOME}/Lib
 GLFW_LIB   = ${GLFW_HOME}/lib-mingw-w64
 
-ifdef tests_here
-	INCLUDE = -I${VULKAN_INCLUDE} -I${GLFW_INCLUDE} -I${GLM_INCLUDE} -I${STB_INCLUDE} -I${VMA_INCLUDE} -I${MAGIC_ENUM_INCLUDE} -I${CATCH_INCLUDE}
-	LINK = -ljsoncpp ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll ${CATCH_HOME}/catch_amalgamated.o
-	COMPILE = -std=c++20 -O3 -mavx -Wno-deprecated-declarations ${gcc_params} -Dtests_here
-else
+$(info mode = ${mode})
+ifeq (${mode}, release)
 	INCLUDE = -I${VULKAN_INCLUDE} -I${GLFW_INCLUDE} -I${GLM_INCLUDE} -I${STB_INCLUDE} -I${VMA_INCLUDE} -I${MAGIC_ENUM_INCLUDE}
 	LINK = -ljsoncpp ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll
-	COMPILE = -std=c++20 -O3 -mavx -Wno-deprecated-declarations ${gcc_params}
+	COMPILE = -std=c++20 -O3 -flto -mavx -Wno-deprecated-declarations -DNDEBUG
+else ifeq (${mode}, debug)
+	INCLUDE = -I${VULKAN_INCLUDE} -I${GLFW_INCLUDE} -I${GLM_INCLUDE} -I${STB_INCLUDE} -I${VMA_INCLUDE} -I${MAGIC_ENUM_INCLUDE}
+	LINK = -ljsoncpp ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll
+	COMPILE = -std=c++20 -O1 -Wno-deprecated-declarations -Wall -g -Duse_validation
+else ifeq (${mode}, tests)
+	INCLUDE = -I${VULKAN_INCLUDE} -I${GLFW_INCLUDE} -I${GLM_INCLUDE} -I${STB_INCLUDE} -I${VMA_INCLUDE} -I${MAGIC_ENUM_INCLUDE} -I${CATCH_INCLUDE}
+	LINK = -ljsoncpp ${VULKAN_LIB}/vulkan-1.lib ${GLFW_LIB}/glfw3.dll ${CATCH_HOME}/catch_amalgamated.o
+	COMPILE = -std=c++20 -O1 -Wno-deprecated-declarations -Wall -g -Duse_validation -Dtests_here
 endif
 
 CPP_FILES = $(wildcard */*.cpp) $(wildcard */*/*.cpp)
